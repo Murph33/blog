@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Quiz1</title>
+  <title>Murphy's Blog</title>
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
 </head>
 <body>
 <%= link_to "Home", root_path %> |
-<%= link_to "All Requests", requests_path %> |
-<%= link_to "Add a Request", new_request_path %>
+<%= link_to "All Posts", posts_path %> |
+<%= link_to "Add a Post", new_post_path %>
 <%= yield %>
 
 </body>
