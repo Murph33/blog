@@ -18,7 +18,8 @@
   <br><br><br>
 <% end %>
 <hr>
-<% @post.comments.each_with_index do |comment,i| %>
+<%# @post.comments.sort_by {|comment| comment.id }.reverse.each_with_index do |comment,i| %>
+<% @comments.each_with_index do |comment,i| %>
 
   <p>
     Comment <%= i+1 %>: <%= comment.body %>
