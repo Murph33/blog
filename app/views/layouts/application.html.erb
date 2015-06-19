@@ -20,7 +20,7 @@
 <% if user_signed_in? %>
   <%= link_to "Edit Profile", edit_users_path  %> |
   <%= link_to "Logout", sessions_path, method: :delete %> |
-  Hi there <%= current_user.full_name %>, here are your
+  Hi there <%= current_user.full_name %>, here are your <%= current_user.favourites.length %>
   <%= link_to 'Favourite Posts', user_favourites_path(current_user) %>
 
 <% end %>
