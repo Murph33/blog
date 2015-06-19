@@ -25,6 +25,7 @@ class PostsController < ApplicationController
     @post = Post.find params[:id]
     @comment = Comment.new
     @comments = Comment.search(@post.id)
+    @favourite = @post.favourite_for(current_user)
   end
 
   def destroy

@@ -1,5 +1,8 @@
 class User < ActiveRecord::Base
 
+  has_many :favourites, dependent: :destroy
+  has_many :favourited_posts, through: :favourites, source: :post
+
   has_many :posts, dependent: :destroy
   has_many :comments, dependent: :destroy
   has_secure_password

@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   get "/home/about" => "home#about"
 
   resources :users, only: [:new, :create] do
+    resources :favourites, only: [:index]
     get :edit, on: :collection
     patch :update, on: :collection
   end
@@ -13,6 +14,7 @@ Rails.application.routes.draw do
   end
 
   resources :posts do
+    resources :favourites, only: [:destroy, :create]
     resources :comments
   end
 
