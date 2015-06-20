@@ -9,6 +9,7 @@ class CommentsController < ApplicationController
     @comment.post_id = params[:post_id]
     @comment.user = current_user
     if @comment.save
+      PostsMailer.notify_post_owner(@comment).deliver_now
       redirect_to post_path(@post)
     else
       flash[:alert] = "Something went wrong!"
