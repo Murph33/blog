@@ -8,12 +8,17 @@ class CommentsController < ApplicationController
     @comment = Comment.new comment_params
     @comment.post_id = params[:post_id]
     @comment.user = current_user
-    if @comment.save
-      PostsMailer.notify_post_owner(@comment).deliver_now
-      redirect_to post_path(@post)
-    else
-      flash[:alert] = "Something went wrong!"
-      render "/posts/show"
+    respond_to do |format|
+      if @comment.save
+        # PostsMailer.notify_post_owner(@comment).deliver_now
+        PostsMailer.delay.notify_post_owner(@comment)
+        format.js { render }
+        format.html { redirect_to post_path(@post) }
+      else
+        @comments = Comment.search(@post.id)
+        format.js { render :create_failure }
+        format.html { render "/posts/show" }
+      end
     end
   end
 
@@ -26,19 +31,28 @@ class CommentsController < ApplicationController
     @post = Post.find params[:post_id]
     comment_params = params.require(:comment).permit(:body)
     @comment = Comment.find params[:id]
-    if @comment.update comment_params
-      redirect_to post_path(@post)
-    else
-      render :edit, notice: "Failed to update."
+    respond_to do |format|
+      if @comment.update comment_params
+        format.js { render :update }
+        format.html {redirect_to post_path(@post)}
+      else
+        format.js { render }
+        format.html {render :edit, notice: "Failed to update."}
+      end
     end
   end
 
   def destroy
     post = Post.find params[:post_id]
-    comment = Comment.find params[:id]
-    comment.destroy
-    flash[:notice] = "Comment successfully deleted \n\n"
-    redirect_to post
+    @comment = Comment.find params[:id]
+    @comment.destroy
+    respond_to do |format|
+      format.js { render }
+      format.html {
+        flash[:notice] = "Comment successfully deleted \n\n"
+        redirect_to post
+        }
+    end
   end
 
 end
