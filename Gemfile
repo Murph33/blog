@@ -14,6 +14,7 @@ gem "delayed_job_web"
 gem 'bootstrap-sass'
 gem 'bootstrap-kaminari-views'
 gem 'cancancan'
+gem 'whenever', :require => false
 # , :group => :development
 # Use Unicorn as the app server
 # gem 'unicorn'
