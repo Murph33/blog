@@ -1,16 +1,37 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Quiz1</title>
+  <title>Murphy's Blog</title>
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
 </head>
 <body>
-<%= link_to "Home", root_path %> |
-<%= link_to "All Requests", requests_path %> |
-<%= link_to "Add a Request", new_request_path %>
-<%= yield %>
+  <div class="container">
+    <%= link_to "Home", root_path %> |
+    <%= link_to "About Me", home_about_path %> |
+    <%= link_to "All Posts", posts_path %> |
+    <%= link_to "Add a Post", new_post_path %> |
 
+    <% unless user_signed_in? %>
+      <%= link_to "Sign up", new_user_path %> |
+      <%= link_to "Login", new_session_path %>
+
+    <% end %>
+    <% if user_signed_in? %>
+      <%= link_to "Edit Profile", edit_users_path  %> |
+      <%= link_to "Logout", sessions_path, method: :delete %> |
+      Hi there <%= current_user.full_name %>, here are your <%= current_user.favourites.length %>
+      <%= link_to 'Favourite Posts', user_favourites_path(current_user) %>
+
+    <% end %>
+    <% if flash[:alert] %>
+      <br><br><div><%= flash[:alert] %></div>
+    <% end %>
+    <% if flash[:notice] %>
+      <br><br><div><%= flash[:notice] %></div>
+    <% end %>
+    <%= yield %>
+  </div>
 </body>
 </html>

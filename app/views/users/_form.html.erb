@@ -1,0 +1,43 @@
+<% if @user.errors.any? %>
+  <ul>
+    <% @user.errors.full_messages.each do |msg| %>
+      <li>
+        <p><%= msg %></p>
+      </li>
+    <% end %>
+  </ul>
+<% end %>
+
+
+<%= form_for @user, url: users_path do |f| %>
+
+  <div>
+    <%= f.label :first_name %>
+    <%= f.text_field :first_name %>
+  </div>
+  <div>
+    <%= f.label :last_name %>
+    <%= f.text_field :last_name %>
+  </div>
+  <div>
+    <%= f.label :email %>
+    <%= f.email_field :email %>
+  </div>
+  <% if @user.persisted? %>
+    <div>
+      <p>Please enter your current password to implement changes</p>
+      <%= f.label :current_password %>
+      <%= f.password_field :current_password %>
+    </div>
+  <% end %>
+  <div>
+    <%= f.label :password %>
+    <%= f.password_field :password %>
+  </div>
+  <div>
+    <%= f.label :password_confirmation %>
+    <%= f.password_field :password_confirmation %>
+  </div>
+
+  <%= f.submit %>
+<% end %>

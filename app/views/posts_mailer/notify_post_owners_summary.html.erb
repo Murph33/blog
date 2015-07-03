@@ -1,0 +1,7 @@
+Here are the comments made in the last 24 hours, <%= @cluster[0].post.user.full_name %>
+
+<% @cluster.each do |comment| %>
+  <div class="well">
+    <%= comment.user.full_name %> said:  <%= comment.body %>
+  </div>
+<% end %>

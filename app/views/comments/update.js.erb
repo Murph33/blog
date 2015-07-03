@@ -1,0 +1,4 @@
+$('#<%= dom_id(@comment, :edit) %>').fadeOut()
+setTimeout(function() {
+    $('#<%= dom_id(@comment, :edit) %>').replaceWith("<%= j render 'comment', comment: @comment %>")
+},300)

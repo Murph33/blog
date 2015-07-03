@@ -1,0 +1,23 @@
+<%= form_for [@post, @comment], html: {class: "form-horizontal"}, remote: true do |f| %>
+  <div >
+    <div class="">
+        <%= f.label :body %>
+    </div>
+
+    <%= f.text_area :body, html: {class: "form-control"}, :cols => 100, :rows => 5 %>
+  </div>
+  <%= f.submit class: "btn btn-primary" %>
+
+
+    <br><br>
+
+    <% if @comment.errors.any? %>
+      <% @comment.errors.full_messages.each do |msg| %>
+        <%= msg %><br>
+      <% end %>
+    <% end %>
+    <br>
+
+  <hr>
+
+<% end %>

@@ -1,0 +1,13 @@
+<div class="well" id="<%= dom_id(comment) %>">
+
+  <p>
+    <strong><%= User.find_by_id(comment.user_id).full_name %></strong>:  <%= comment.body %>
+    <%= link_to "Edit", edit_post_comment_path(@post,comment), remote: true %>
+    <%= link_to "Delete", post_comment_path(@post, comment), method: :delete,
+                                            data: {confirm: "Delete comment?"}, remote: true %><br>
+    commented at <%= comment.created_at %>:
+  </p>
+  <hr>
+
+
+</div>

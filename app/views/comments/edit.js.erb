@@ -1,0 +1,4 @@
+$('#<%= dom_id(@comment) %>').fadeOut()
+setTimeout(function() {
+  $("#<%= dom_id(@comment) %>").replaceWith("<%= j render 'form' %>")
+},300)

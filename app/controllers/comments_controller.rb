@@ -1,0 +1,58 @@
+class CommentsController < ApplicationController
+
+  before_action :authenticate_user!
+
+  def create
+    comment_params = params.require(:comment).permit(:body)
+    @post = Post.find(params[:post_id])
+    @comment = Comment.new comment_params
+    @comment.post_id = params[:post_id]
+    @comment.user = current_user
+    respond_to do |format|
+      if @comment.save
+        # PostsMailer.notify_post_owner(@comment).deliver_now
+        PostsMailer.delay.notify_post_owner(@comment)
+        format.js { render }
+        format.html { redirect_to post_path(@post) }
+      else
+        @comments = Comment.search(@post.id)
+        format.js { render :create_failure }
+        format.html { render "/posts/show" }
+      end
+    end
+  end
+
+  def edit
+    @comment = Comment.find params[:id]
+    @post = Post.find params[:post_id]
+  end
+
+  def update
+    @post = Post.find params[:post_id]
+    comment_params = params.require(:comment).permit(:body)
+    @comment = Comment.find params[:id]
+    respond_to do |format|
+      if @comment.update comment_params
+        format.js { render :update }
+        format.html {redirect_to post_path(@post)}
+      else
+        format.js { render }
+        format.html {render :edit, notice: "Failed to update."}
+      end
+    end
+  end
+
+  def destroy
+    post = Post.find params[:post_id]
+    @comment = Comment.find params[:id]
+    @comment.destroy
+    respond_to do |format|
+      format.js { render }
+      format.html {
+        flash[:notice] = "Comment successfully deleted \n\n"
+        redirect_to post
+        }
+    end
+  end
+
+end

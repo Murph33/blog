@@ -1,0 +1,8 @@
+<h1>Your Favourite Posts </h1>
+
+
+<% @favourites.each do |favourite| %>
+
+  <h4><%= link_to "#{favourite.post.title}", favourite.post %></h4>
+
+<% end %>

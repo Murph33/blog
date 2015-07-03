@@ -1,0 +1,27 @@
+<% if @post.errors.any? %>
+  <ul>
+    <% @post.errors.full_messages.each do |msg| %>
+      <li><%= msg %>.  Please correct this.</li>
+    <% end %>
+  </ul>
+<% end %>
+
+<%= form_for @post do |f| %>
+  <div>
+    <%= f.label :title %>
+    <%= f.text_field :title %>
+  </div>
+  <div>
+    <%= f.label :asset %>
+    <%= f.file_field :asset %>
+  </div>
+  <div>
+    <%= f.label :body %>
+    <%= f.text_area :body %>
+  </div>
+  <div>
+  <div>
+    <%= f.collection_check_boxes :tag_ids, Tag.all, :id, :name  %>
+  </div>
+  <%= f.submit "Submit" %>
+<% end %>
