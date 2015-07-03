@@ -2,11 +2,13 @@ namespace :post do
   desc "Tasks associated with posts"
   task comments: :environment do
     new_comments = []
-    Comment.where("created_at > ?", 1.day.ago).each {|comment| new_comments << comment}
+    comments = Comment.includes(post: :user).where('created_at > ?', 1.day.ago)
+    comments.each {|comment| new_comments << comment}
+    #Comment.where("created_at > ?", 1.day.ago).each {|comment| new_comments << comment}
     sorted_new_comments = new_comments.sort_by { |comment| comment.post.user }
-    new_comments.each  { |comment| p comment.post.user }
-    p sorted_new_comments == new_comments
-    sorted_new_comments.each  { |comment| p comment.post.user }
+    #new_comments.each  { |comment| p comment.post.user }
+    #p sorted_new_comments == new_comments
+    #sorted_new_comments.each  { |comment| p comment.post.user }
     @clustered_comments = sorted_new_comments.cluster { |comment| comment.post.user }
     @clustered_comments.each {|c| p c[0].post.user.email}
     PostsMailer.notify_post_owners_summary(@clustered_comments).deliver_now

@@ -15,6 +15,10 @@ gem 'bootstrap-sass'
 gem 'bootstrap-kaminari-views'
 gem 'cancancan'
 gem 'whenever', :require => false
+gem 'carrierwave'
+gem "mini_magick"
+
+
 # , :group => :development
 # Use Unicorn as the app server
 # gem 'unicorn'
